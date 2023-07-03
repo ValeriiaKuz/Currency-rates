@@ -1,0 +1,6 @@
+.not_found{
+   background-image: url("../../../images/404.svg");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size:  40% auto;
+}

@@ -1,0 +1,11 @@
+.error{
+    background-image: url('../../../images/error.svg');
+    background-size: 30% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    color: #ff725e;
+    font-size: 2rem;
+    font-weight: 600;
+    padding-top: 5rem;
+}

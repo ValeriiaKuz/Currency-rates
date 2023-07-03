@@ -1,0 +1,29 @@
+.loader{
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+.loader::before,
+.loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -45px;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    animation: rotate 1000ms infinite cubic-bezier(0.77,0, 0.175,1);
+}
+.loader::before{
+    background-color: #f59b9b;
+}
+.loader::after{
+    background-color: #fcef89;
+    animation-delay: 500ms;
+}
+@keyframes rotate {
+    0%,100% {translate:90px 0;}
+    25% {scale: 0.3;}
+    50% {translate:0;}
+    75%{scale: 1;}
+}

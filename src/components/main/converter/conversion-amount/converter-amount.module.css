@@ -1,0 +1,30 @@
+.converter_amount_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+    color: #3a3a3a;
+}
+.amount{
+    font-size: 2rem;
+    font-weight: 600;
+    display: flex;
+    gap:1rem
+}
+.total_amount{
+    font-size: 4rem;
+    font-weight: 800;
+    display: flex;
+    gap:2rem
+}
+@media (max-width: 550px) {
+    .converter_amount_wrapper{
+        gap:2vh;
+
+    }
+    .total_amount{
+        font-size: 3rem;
+        font-weight: 800;
+        display: flex;
+        gap:1.5rem
+    }
+}

@@ -1,0 +1,30 @@
+.rates{
+    background-color: rgba(255, 255, 254, 0.7);
+    padding: 1rem 3rem;
+    height: max-content;
+    align-self: center;
+    border-radius: 3rem;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2),3px 4px 2px 1px rgba(0, 0, 0, 0.1);
+}
+.rate_item{
+    padding: 0.5rem;
+}
+.selected_currency{
+    font-size: 1.5rem;
+    text-decoration: underline;
+    text-decoration-color: #fcef89;
+    text-underline-position: under ;
+    text-align: center;
+}
+@media (max-width: 650px){
+    .rates{
+        position: absolute;
+        top: 8rem;
+    }
+}
+@media (max-width: 500px){
+    .rates{
+        position: absolute;
+        top: 15vh;
+    }
+}

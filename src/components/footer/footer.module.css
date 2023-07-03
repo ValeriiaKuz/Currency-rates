@@ -1,0 +1,17 @@
+.footer{
+    background-color: #dadada;
+    grid-row: 3;
+    color: #414141;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 1rem;
+}
+.footer a{
+    color: #414141;
+}
+@media (max-width: 450px){
+    .footer{
+        font-size: 0.7rem;
+    }
+}
