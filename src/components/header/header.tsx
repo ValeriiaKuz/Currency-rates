@@ -1,15 +1,20 @@
 import style from "./heade.module.css";
 import { Logo } from "./logo/logo";
-import { NavLink } from "react-router-dom";
-import {  useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
   const openMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <div className={style.header}>
+      {isOpen && <div className={style.back}></div>}
       <Logo />
       <nav>
         <div

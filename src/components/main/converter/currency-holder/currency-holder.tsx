@@ -1,63 +1,98 @@
 import { useSelector } from "../../../../servicies/hooks/hooks";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import top from "../../../../images/top.svg";
 import down from "../../../../images/down.svg";
 import { Currency } from "../../../../servicies/slices/supported-currencies";
 import style from "./currency-holder.module.css";
+import {
+  areMatches,
+  getInputValueForSearch,
+  useDropdownLogic,
+} from "../../currencies-rates/dropdown/dropdown-utils";
 type CurrencyHolderPropsType = {
-  setCurrencyConversion?: (cur: Currency) => void;
+  setCurrencyConversion: (cur: Currency) => void;
+  hash: string;
 };
 export const CurrencyHolder: FC<CurrencyHolderPropsType> = ({
   setCurrencyConversion,
+  hash,
 }) => {
-  const [currency, setCurrency] = useState<Currency | null>(null);
   const selectedCurrency = useSelector(
     (state) => state.selectedCurrency.selectedCurrency
   );
-  const currenciesWithoutSelected = useSelector(
+  const supportedCurrencies = useSelector(
     (state) => state.supportedCurrencies.supportedCurrencies
-  ).filter((cur) => {
-    return cur.code !== selectedCurrency.code;
-  });
-
+  );
+  const [currency, setCurrency] = useState<Currency | null>(null);
+  const { clickCount, setClickCount, inputRef } = useDropdownLogic(
+    selectedCurrency,
+    supportedCurrencies
+  );
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDrop = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleClick = useCallback((count: number, open: boolean) => {
+    setClickCount((prevClickCount) => prevClickCount + count);
+    setIsOpen(open);
+  }, []);
   useEffect(() => {
     if (setCurrencyConversion) {
       currency
         ? setCurrencyConversion(currency)
         : setCurrencyConversion(selectedCurrency);
     }
-  }, [currency, selectedCurrency,setCurrencyConversion]);
+  }, [currency, selectedCurrency, setCurrencyConversion]);
+  const [inputValue, setInputValue] = useState(selectedCurrency.code);
+  const inputValueForSearch = getInputValueForSearch(inputValue);
 
+  const DropdownOption: FC<{ option: Currency }> = React.memo(({ option }) => {
+    return (
+      <div
+        onClick={() => {
+          setInputValue(option.code);
+          setCurrency(option);
+          handleClick(3, false);
+        }}
+        className={style.option_item}
+      >
+        {option.code}:{option.name}
+      </div>
+    );
+  });
+  let mappedDropdownOptions: Array<ReactNode> = [];
+  supportedCurrencies.forEach((option) => {
+    if (clickCount <= 2 || areMatches(option, inputValueForSearch)) {
+      mappedDropdownOptions.push(
+        <DropdownOption option={option} key={`${hash}-${option.code}`} />
+      );
+    }
+  });
   return (
     <div className={style.holder}>
       <div
-        onClick={toggleDrop}
-        className={`${style.selected} ${isOpen ? style.triangle : ""}`}
+        className={`${style.selected_wrapper} ${isOpen ? style.triangle : ""}`}
+        onClick={() => handleClick(1, !isOpen)}
       >
-        <span>{currency ? currency.code : selectedCurrency.code}</span>
+        <input
+          type={"text"}
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            setIsOpen(true);
+            setClickCount(clickCount + 2);
+          }}
+          ref={inputRef}
+          className={style.selected}
+        />
         {isOpen ? <img src={top} alt="top" /> : <img src={down} alt="down" />}
       </div>
-      <div className={style.options}>
-        {isOpen &&
-          currenciesWithoutSelected.map((cur) => {
-            return (
-              <div
-                key={cur.code}
-                onClick={() => {
-                  setCurrency(cur);
-                  toggleDrop();
-                }}
-                className={style.option_item}
-              >
-                {cur.code}:{cur.name}
-              </div>
-            );
-          })}
-      </div>
+      {isOpen && (
+        <div className={style.options}>
+          {mappedDropdownOptions.length >= 1 ? (
+            mappedDropdownOptions
+          ) : isOpen ? (
+            <div className={style.option_item}>no matches</div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 };

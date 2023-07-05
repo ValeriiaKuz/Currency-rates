@@ -7,13 +7,16 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    width: 25rem;
 }
 .dropdown_title{
     font-size: 2rem;
     font-weight: 400;
     padding-left: 3rem;
+    z-index: 3;
 }
 .dropdown_selected{
+    border-color: rgba(255, 255, 255, 0);
     font-size: 1.5rem;
     border-radius: 2rem;
     padding: 1rem;
@@ -56,7 +59,7 @@
     border-bottom: none;
 }
 .bitcoin{
-    width: 35%;
+    width: 9rem;
     position: absolute;
     top:-6rem;
     left: -5rem;
@@ -67,7 +70,7 @@
         padding: 0.8rem;
     }
     .bitcoin{
-        width: 25%;
+        width: 8rem;
         top:-4rem;
         left: -4rem;
     }

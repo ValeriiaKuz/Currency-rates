@@ -16,7 +16,9 @@
 }
 @media (max-width: 420px) {
     .header{
-        background: rgba(255, 114, 94, 0.75) ;}
+        background: rgba(255, 114, 94, 0.75) ;
+    }
+
     .mobile_nav {
         margin: 0.5rem 0;
         height: 3px;
@@ -70,9 +72,19 @@
         display: flex;
         gap:1.5rem;
         flex-direction: column;
-        padding: 3rem 1rem;
-        z-index: 3;
-        max-width: 10rem;
+        padding: 3rem 1rem 3rem 2rem;
+        z-index: 5;
+        max-width: 14rem;
+        border-radius: 0 0 0 3rem;
+    }
+    .back{
+        width: 100vh;
+        height: calc(100vh - 40px);
+        background-color: rgba(0, 0, 0, 0.53);
+        position: absolute;
+        left: 0;
+        top:40px;
+        z-index:3
     }
 }
 

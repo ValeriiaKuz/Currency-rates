@@ -1,3 +1,8 @@
+.loader_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center}
 .loader{
     position: relative;
     width: 50px;

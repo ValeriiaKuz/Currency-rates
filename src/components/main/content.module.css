@@ -10,8 +10,11 @@
 
 .content_wrapper{
     max-width: 1200px;
-    margin: 1rem auto;
-    align-self: center;
+    margin: 1rem 0;
+    position: absolute;
+    top: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .content_sections{
     display: flex;
@@ -32,8 +35,7 @@
 @media (max-width: 650px){
 
     .content_wrapper{
-        align-self:auto;
-        margin: 20vh auto 0;
+        top: 14vh;
     }
     .content_sections{
         display: flex;

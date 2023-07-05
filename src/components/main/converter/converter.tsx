@@ -16,12 +16,14 @@ export const Converter = () => {
   const [currencyInConversion, setCurrencyInConversion] =
     useState<Currency | null>(null);
   const [inputValue, setInputValue] = useState("");
+  const [wasClicked, setWasClicked] = useState<boolean>(false);
   const inputRef = useRef(null);
 
   const dispatch = useDispatch();
+  const notDisabled = +inputValue > 0 && +inputValue <= 1000000;
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (currencyForConversion) {
+    if (currencyForConversion && notDisabled) {
       const base = currencyForConversion.code;
       dispatch(fetchBaseCurrencyRateAll(base));
     }
@@ -44,21 +46,40 @@ export const Converter = () => {
     <div className={style.wrapper}>
       <div className={style.converter}>
         <form className={style.converter_form} onSubmit={onHandleSubmit}>
-          <input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            type={"number"}
-            min={0}
-            placeholder={"Amount"}
-            className={style.converter_amount}
-            ref={inputRef}
-          />
-          <div className={style.holders}>
-            <CurrencyHolder setCurrencyConversion={setCurrencyForConversion} />
-            <img src={right} alt={"in"} />
-            <CurrencyHolder setCurrencyConversion={setCurrencyInConversion} />
+          <div className={style.input_wrapper}>
+            <input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              type={"number"}
+              min={1}
+              max={1000000}
+              placeholder={"Amount"}
+              className={style.converter_amount}
+              ref={inputRef}
+              onClick={() => {
+                setWasClicked(false);
+              }}
+            />
+            {wasClicked && !notDisabled && (
+              <span>Amount should be more than 0 and less then 1.000.000</span>
+            )}
           </div>
-          <ConverterButton />
+
+          <div className={style.holders}>
+            <CurrencyHolder
+              setCurrencyConversion={setCurrencyForConversion}
+              hash={"from"}
+            />
+            <img src={right} alt={"in"} />
+            <CurrencyHolder
+              setCurrencyConversion={setCurrencyInConversion}
+              hash={"to"}
+            />
+          </div>
+          <ConverterButton
+            notDisabled={notDisabled}
+            setWasClicked={setWasClicked}
+          />
         </form>
         {isLoading ? (
           <Preloader />
